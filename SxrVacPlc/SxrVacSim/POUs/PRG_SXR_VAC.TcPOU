@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
+  <POU Name="PRG_SXR_VAC" Id="{b55f765d-23ce-40c5-a219-f1abbb44ed7a}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM PRG_SXR_VAC
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+// FB_VacuumValve
+
+fb_RTDSK0_VGC_1(stAVol := st_START, stBvol := st_RTDS, stValve := st_RTDSK0_VGC_1);
+fb_EM1K0_GMD_VGC_1(stAVol := st_RTDS, stBvol := st_GMD, stValve := st_EM1K0_GMD_VGC_1);
+fb_AT1K0_GAS_VGC_1(stAVol := st_GMD, stBvol := st_GATT, stValve := st_AT1K0_GAS_VGC_1);
+fb_EM1K0_XGMD_VGC_1(stAVol := st_GATT, stBvol := st_XGMD, stValve := st_EM1K0_XGMD_VGC_1);
+fb_EM1K0_XGMD_VGC_2(stAVol := st_XGMD, stBvol := st_EM2K0_VOL, stValve := st_EM1K0_XGMD_VGC_2);
+fb_TV2K0_VGC_1(stAVol := st_EM2K0_VOL, stBvol := st_TV2K0_VGC_1_VOL, stValve := st_TV2K0_VGC_1);
+fb_MR1K1_BEND_VGC_1(stAVol := st_TV2K0_VGC_1_VOL, stBvol := st_MR1K1_VOL, stValve := st_MR1K1_BEND_VGC_1);
+fb_MR1K3_TXI_VGC_1(stAVol := st_MR1K1_VOL, stBvol := st_MR_K3_VOL, stValve := st_MR1K3_TXI_VGC_1);
+fb_SP1K1_MONO_VGC_1(stAVol := st_MR_K3_VOL, stBvol := st_SP1K1_VOL, stValve := st_SP1K1_MONO_VGC_1);
+fb_SP1K1_MONO_VGC_2(stAVol := st_SP1K1_VOL, stBvol := st_SP1K1_MONO_VGC_2_VOL, stValve := st_SP1K1_MONO_VGC_2);
+fb_IM1K2_PPM_VGC_1(stAVol := st_MR_K3_VOL, stBvol := st_IM1K2_PPM_VGC_1_VOL, stValve := st_IM1K2_PPM_VGC_1);
+fb_TV3K0_VGC_1(stAVol := st_MR_K3_VOL, stBvol := st_TV3K0_VGC_1_VOL, stValve := st_TV3K0_VGC_1);
+fb_MR1K4_SOMS_VGC_1(stAVol := st_TV3K0_VGC_1_VOL, stBvol := st_MR1K4_VOL, stValve := st_MR1K4_SOMS_VGC_1);
+fb_TV1K4_VGC_1(stAVol := st_MR1K4_VOL, stBvol := st_TV1K4_VGC_1_VOL, stValve := st_TV1K4_VGC_1);
+fb_TV1K4_VGC_2(stAVol := st_TV1K4_VGC_1_VOL, stBvol := st_TV1K4_VGC_2_VOL, stValve := st_TV1K4_VGC_2);
+fb_ST3K4_XTES_VGC_1(stAVol := st_TV1K4_VGC_2_VOL, stBvol := st_PC4K4_VOL, stValve := st_ST3K4_XTES_VGC_1);
+
+// FB_MKS_422
+
+fb_DMPS_GCC_1(stVolume := st_RTDS, stGauge := st_DMPS_GCC_1);
+fb_IM2K0_XTES_GCC_1(stVolume := st_GMD, stGauge := st_IM2K0_XTES_GCC_1);
+fb_PCPM3B_GFS_1(stVolume := st_GMD, stGauge := st_PCPM3B_GFS_1);
+fb_SL1K0_GCC_1(stVolume := st_GMD, stGauge := st_SL1K0_GCC_1);
+fb_TV2K0_GCC_1(stVolume := st_EM2K0_VOL, stGauge := st_TV2K0_GCC_1);
+fb_TV2K0_GCC_2(stVolume := st_TV2K0_VGC_1_VOL, stGauge := st_TV2K0_GCC_2);
+fb_PA1K0_GCC_1(stVolume := st_TV2K0_VGC_1_VOL, stGauge := st_PA1K0_GCC_1);
+fb_MR1K1_BEND_GCC_1(stVolume := st_MR1K1_VOL, stGauge := st_MR1K1_BEND_GCC_1);
+
+// FB_MKS_275
+
+fb_DMPS_GPI_1(stVolume := st_RTDS, stGauge := st_DMPS_GPI_1);
+fb_IM2K0_XTES_GPI_1(stVolume := st_GMD, stGauge := st_IM2K0_XTES_GPI_1);
+fb_SL1K0_GPI_1(stVolume := st_GMD, stGauge := st_SL1K0_GPI_1);
+fb_TV2K0_GPI_1(stVolume := st_EM2K0_VOL, stGauge := st_TV2K0_GPI_1);
+fb_TV2K0_GPI_2(stVolume := st_TV2K0_VGC_1_VOL, stGauge := st_TV2K0_GPI_2);
+fb_PA1K0_GPI_1(stVolume := st_TV2K0_VGC_1_VOL, stGauge := st_PA1K0_GPI_1);
+fb_MR1K1_BEND_GPI_1(stVolume := st_MR1K1_VOL, stGauge := st_MR1K1_BEND_GPI_1);
+fb_MR2K3_TXI_GPI_1(stVolume := st_MR_K3_VOL, stGauge := st_MR2K3_TXI_GPI_1);
+fb_MR1K3_TXI_GPI_1(stVolume := st_MR_K3_VOL, stGauge := st_MR1K3_TXI_GPI_1);
+fb_SP1K1_MONO_GPI_1(stVolume := st_SP1K1_VOL, stGauge := st_SP1K1_MONO_GPI_1);
+fb_TV3K0_GPI_1(stVolume := st_TV3K0_VGC_1_VOL, stGauge := st_TV3K0_GPI_1);
+fb_MR1K4_SOMS_GPI_1(stVolume := st_MR1K4_VOL, stGauge := st_MR1K4_SOMS_GPI_1);
+fb_TV1K4_GPI_1(stVolume := st_TV1K4_VGC_1_VOL, stGauge := st_TV1K4_GPI_1);
+fb_ST1K4_TEST_GPI_1(stVolume := st_TV1K4_VGC_2_VOL, stGauge := st_ST1K4_TEST_GPI_1);
+fb_ST2K4_BCS_GPI_1(stVolume := st_TV1K4_VGC_2_VOL, stGauge := st_ST2K4_BCS_GPI_1);
+fb_PC4K4_XTES_GPI_1(stVolume := st_PC4K4_VOL, stGauge := st_PC4K4_XTES_GPI_1);
+
+// FB_GAM_PIP
+
+fb_RTDSK0_PIP_1(stVolume := st_RTDS, stPip := st_RTDSK0_PIP_1);
+fb_RTDSK0_PIP_2(stVolume := st_RTDS, stPip := st_RTDSK0_PIP_2);
+fb_RTDSK0_PIP_3(stVolume := st_RTDS, stPip := st_RTDSK0_PIP_3);
+fb_RTDSK0_PIP_4(stVolume := st_RTDS, stPip := st_RTDSK0_PIP_4);
+fb_RTDSK0_PIP_5(stVolume := st_RTDS, stPip := st_RTDSK0_PIP_5);
+fb_PCPM3B_PIP_1(stVolume := st_GMD, stPip := st_PCPM3B_PIP_1);
+fb_PA1K0_PIP_1(stVolume := st_TV2K0_VGC_1_VOL, stPip := st_PA1K0_PIP_1);
+fb_PA1K0(stVolume := st_TV2K0_VGC_1_VOL, stPip := st_PA1K0);
+fb_MR1K1_BEND_PIP_1(stVolume := st_MR1K1_VOL, stPip := st_MR1K1_BEND_PIP_1);
+fb_MR2K3_TXI_PIP_1(stVolume := st_MR_K3_VOL, stPip := st_MR2K3_TXI_PIP_1);
+fb_MR1K3_TXI_PIP_1(stVolume := st_MR_K3_VOL, stPip := st_MR1K3_TXI_PIP_1);
+fb_SP1K1_MONO_PIP_1(stVolume := st_SP1K1_VOL, stPip := st_SP1K1_MONO_PIP_1);
+fb_SP1K1_MONO_PIP_2(stVolume := st_SP1K1_VOL, stPip := st_SP1K1_MONO_PIP_2);
+fb_TV3K0_PIP_1(stVolume := st_TV3K0_VGC_1_VOL, stPip := st_TV3K0_PIP_1);
+fb_MR1K4_SOMS_PIP_1(stVolume := st_MR1K4_VOL, stPip := st_MR1K4_SOMS_PIP_1);
+fb_ST1K4_TEST_PIP_1(stVolume := st_TV1K4_VGC_2_VOL, stPip := st_ST1K4_TEST_PIP_1);
+fb_ST2K4_BCS_PIP_1(stVolume := st_TV1K4_VGC_2_VOL, stPip := st_ST2K4_BCS_PIP_1);
+fb_ST3K4_PPS_PIP_1(stVolume := st_TV1K4_VGC_2_VOL, stPip := st_ST3K4_PPS_PIP_1);
+fb_PC4K4_XTES_PIP_1(stVolume := st_PC4K4_VOL, stPip := st_PC4K4_XTES_PIP_1);
+
+// FB_MKS_500
+
+fb_MR2K3_TXI_GCC_1(stVolume := st_MR_K3_VOL, stGauge := st_MR2K3_TXI_GCC_1);
+fb_MR1K3_TXI_GCC_1(stVolume := st_MR_K3_VOL, stGauge := st_MR1K3_TXI_GCC_1);
+fb_SP1K1_MONO_GCC_1(stVolume := st_SP1K1_VOL, stGauge := st_SP1K1_MONO_GCC_1);
+fb_TV3K0_GCC_1(stVolume := st_TV3K0_VGC_1_VOL, stGauge := st_TV3K0_GCC_1);
+fb_MR1K4_SOMS_GCC_1(stVolume := st_MR1K4_VOL, stGauge := st_MR1K4_SOMS_GCC_1);
+fb_TV1K4_GCC_1(stVolume := st_TV1K4_VGC_1_VOL, stGauge := st_TV1K4_GCC_1);
+fb_ST1K4_TEST_GCC_1(stVolume := st_TV1K4_VGC_2_VOL, stGauge := st_ST1K4_TEST_GCC_1);
+fb_ST2K4_BCS_GCC_1(stVolume := st_TV1K4_VGC_2_VOL, stGauge := st_ST2K4_BCS_GCC_1);
+fb_PC4K4_XTES_GCC_1(stVolume := st_PC4K4_VOL, stGauge := st_PC4K4_XTES_GCC_1);
+]]></ST>
+    </Implementation>
+    <LineIds Name="PRG_SXR_VAC">
+      <LineId Id="6" Count="82" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

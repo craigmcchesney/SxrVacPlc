@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
+  <POU Name="PRG_DIAGNOSTIC" Id="{01eb2a67-e7c9-4458-aaa8-ee658e67255c}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM PRG_DIAGNOSTIC
+VAR
+   heartbeat AT %Q* : UINT := 0;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[heartbeat := heartbeat + 1;
+IF heartbeat > 65000
+   THEN heartbeat := 0;
+END_IF
+]]></ST>
+    </Implementation>
+    <LineIds Name="PRG_DIAGNOSTIC">
+      <LineId Id="7" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

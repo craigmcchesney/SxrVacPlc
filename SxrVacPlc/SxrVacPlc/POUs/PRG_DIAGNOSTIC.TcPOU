@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.16">
+  <POU Name="PRG_DIAGNOSTIC" Id="{ff8c9424-8f69-49e0-bc84-f77731d2c7fd}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM PRG_DIAGNOSTIC
+VAR
+
+   fbTime : FB_LocalSystemTime := ( bEnable := TRUE, dwCycle := 1 );
+   logTimer : TON := ( IN := TRUE, PT := T#1000ms );
+
+   plcName : STRING[15];
+
+   {attribute 'pytmc' := ' pv: simHeartbeat '}
+   simHeartbeat AT %I* : UINT := 0;
+   {attribute 'pytmc' := ' pv: plcHeartbeat '}
+   plcHeartbeat : UDINT := 0;
+   {attribute 'pytmc' := ' pv: plcInfo '}
+   plcInfo : STRING[40];
+   {attribute 'pytmc' := ' pv: plcLocalTime '}
+   plcLocalTime : STRING[25];
+
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[plcHeartbeat := plcHeartbeat + 1;
+IF plcHeartbeat > 4294967000
+   THEN plcHeartbeat := 0;
+END_IF
+
+// get timestamp as string every second
+fbTime();
+logTimer( IN := fbTime.bValid );
+IF logTimer.Q THEN
+   logTimer( IN := FALSE ); logTimer( IN := fbTime.bValid );
+   plcLocalTime := SYSTEMTIME_TO_STRING(fbTime.systemTime);
+END_IF
+
+// make an info string
+plcName := 'Prototype PLC: ';
+plcInfo := CONCAT(plcName, plcLocalTime);
+]]></ST>
+    </Implementation>
+    <LineIds Name="PRG_DIAGNOSTIC">
+      <LineId Id="23" Count="15" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
